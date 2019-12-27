@@ -7,3 +7,23 @@
     <title>Police Report System</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Police Reporting System</a>
+  
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="../index.php">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../views/login.php">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../views/register.php">Register</a>
+      </li>
+      <!-- REMOVE ME AT SOME POINT -->
+      <li class="nav-item">
+        <a class="nav-link" href="../views/reports.php">Reports</a>
+      </li>
+    </ul>
+  
+</nav>
