@@ -6,8 +6,8 @@
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-    $stmt = $pdo->query('SELECT * FROM incident');
-    
+    $stmt = $pdo->query('SELECT incident.*, people.People_name FROM incident JOIN people ON incident.People_ID = people.People_ID');
+
 ?>
     <div class="container">
         <div class="text-center mt-3">
@@ -25,10 +25,11 @@
                 </thead>
                 <?php
                     while($row = $stmt->fetch()){
+                        var_dump($row);
                         echo '<tr>';
                         echo '<td>'. $row->Incident_ID . '</td>';
                         echo '<td>'. $row->Vehicle_ID . '</td>';
-                        echo '<td>'. $row->People_ID . '</td>';
+                        echo '<td>'. $row->People_name . '</td>';
                         echo '<td>'. $row->Incident_Date . '</td>';
                         echo '<td>'. $row->Incident_Report . '</td>';
                         echo '<td>'. $row->Offence_ID . '</td>';
