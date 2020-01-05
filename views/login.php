@@ -11,7 +11,7 @@
             <div class="form-group">
                 <input type="text" name="password" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-outline-success mb-2">Submit</button>
             
         </form>
         <a href="../index.php">Back to Home</a>
