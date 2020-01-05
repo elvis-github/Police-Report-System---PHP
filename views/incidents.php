@@ -7,10 +7,10 @@
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     $stmt = $pdo->query('SELECT * FROM incident');
-    while($row = $stmt->fetch()){
-        // var_dump($row);
-        echo $row->Incident_Report . '<br>';
-    }
+    // while($row = $stmt->fetch()){
+    //     // var_dump($row);
+    //     echo $row->Incident_Report . '<br>';
+    // }
 ?>
     <div class="container">
         <div class="text-center mt-3">
@@ -26,14 +26,18 @@
                         <th>Offence</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td>Placeholder</td>
-                    <td>Placeholder</td>
-                    <td>Placeholder</td>
-                    <td>Placeholder</td>
-                    <td>Placeholder</td>
-                    <td>Placeholder</td>
-                </tr>
+                <?php
+                    while($row = $stmt->fetch()){
+                        echo '<tr>';
+                        echo '<td>'. $row->Incident_ID . '</td>';
+                        echo '<td>'. $row->Vehicle_ID . '</td>';
+                        echo '<td>'. $row->People_ID . '</td>';
+                        echo '<td>'. $row->Incident_Date . '</td>';
+                        echo '<td>'. $row->Incident_Report . '</td>';
+                        echo '<td>'. $row->Offence_ID . '</td>';
+                        echo '</tr>';
+                    }
+                ?>
             </table>
         </div>
     </div>
