@@ -6,12 +6,14 @@
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-    $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect
+    $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect, offence.Offence_description AS Report
                         FROM incident 
                         JOIN vehicle
                         ON incident.Vehicle_ID = vehicle.Vehicle_ID
                         JOIN people 
-                        ON incident.People_ID = people.People_ID'
+                        ON incident.People_ID = people.People_ID
+                        JOIN offence
+                        ON incident.Offence_ID = offence.Offence_ID'
                         );
 
 ?>
@@ -31,14 +33,13 @@
                 </thead>
                 <?php
                     while($row = $stmt->fetch()){
-                        var_dump($row);
                         echo '<tr>';
                         echo '<td>'. $row->Incident_ID . '</td>';
                         echo '<td>'. $row->Vehicle . '</td>';
                         echo '<td>'. $row->Suspect . '</td>';
                         echo '<td>'. $row->Incident_Date . '</td>';
                         echo '<td>'. $row->Incident_Report . '</td>';
-                        echo '<td>'. $row->Offence_ID . '</td>';
+                        echo '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>';
                         echo '</tr>';
                     }
                 ?>
