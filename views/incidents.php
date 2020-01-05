@@ -44,6 +44,7 @@
                     }
                 ?>
             </table>
+            <a class="btn btn-outline-success" href="#">Add New Incident</a>
         </div>
     </div>
 </body>
