@@ -20,7 +20,7 @@
             <div class="form-group">
                 <input type="text" name="auth" placeholder="Auth Code">
             </div>
-            <button class="btn btn-default">Submit</button>
+            <button class="btn btn-outline-success mb-2">Submit</button>
         </form>
         <a href="../index.php">Back to Home</a>
     </div>
