@@ -7,10 +7,7 @@
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     $stmt = $pdo->query('SELECT * FROM incident');
-    // while($row = $stmt->fetch()){
-    //     // var_dump($row);
-    //     echo $row->Incident_Report . '<br>';
-    // }
+    
 ?>
     <div class="container">
         <div class="text-center mt-3">
