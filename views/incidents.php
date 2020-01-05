@@ -3,16 +3,16 @@
 ?>
     <div class="container">
         <div class="text-center mt-3">
-            <h1>Police Reports</h1>
+            <h1>Incidents</h1>
             <table class="table table-bordered mt-3">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Report ID#</th>
-                        <th>Date</th>
-                        <th>Officer</th>
+                        <th>Incident ID#</th>
+                        <th>Vehicle</th>
                         <th>Suspect</th>
-                        <th>Victim</th>
-                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Report</th>
+                        <th>Offence</th>
                     </tr>
                 </thead>
                 <tr>

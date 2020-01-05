@@ -21,7 +21,7 @@
             </li>
             <!-- REMOVE ME AT SOME POINT -->
             <li class="nav-item">
-                <a class="nav-link" href="../views/reports.php">Reports</a>
+                <a class="nav-link" href="../views/incidents.php">Incidents</a>
             </li>
         </ul>
     </div>
