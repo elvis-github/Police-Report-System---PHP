@@ -8,7 +8,7 @@
     <div class="container">
         <div class="text-center mt-3">
             <h1>People</h1>
-            <input type="text" id="search" onkeyup="filter()" placeholder="Search for names...">
+            <input class="pl-1" type="text" id="search" onkeyup="filter()" size="33" placeholder="Search by name or licence number">
             <table id="table" class="table table-bordered mt-3">
                 <thead class="thead-dark">
                     <tr>
@@ -31,20 +31,21 @@
                     unset($pdo);
                 ?>
             </table>
+            <p class="d-none" id="noRecords"><strong class="text-danger">No records found</strong></p>
             <a class="btn btn-outline-success" href="#">Add New Person</a><br>
             <a class="btn btn-sm btn-primary mt-2" href="main.php">Go Back To Main</a>
         </div>
     </div>
 
     <script>
+        var tr = table.getElementsByTagName("tr");
+        var trCount = tr.length - 1;
         function filter() {
             // Declare variables
-            var input, filter, table, tr, td, i, txtValue, trCount;
+            var input, filter, table, td, i, txtValue, hiddenCount;
             input = document.getElementById("search");
             filter = input.value.toUpperCase();
             table = document.getElementById("table");
-            tr = table.getElementsByTagName("tr");
-            trCount = tr.length;
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
                 tdName = tr[i].getElementsByTagName("td")[1];
@@ -55,14 +56,16 @@
                     if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueLicence.toUpperCase().indexOf(filter) > -1) {
                         if(tr[i].style.display == "none"){
                             tr[i].style.display = "";
-                            trCount++;
                         }
                     } else {
                         tr[i].style.display = "none";
-                        trCount--;
                     }
                 }
-                console.log(trCount);
+                if($('tr[style*="display: none"]').length == trCount){
+                    $('#noRecords').removeClass("d-none");
+                } else {
+                    $('#noRecords').addClass("d-none");
+                }
             }
         }
     </script>
