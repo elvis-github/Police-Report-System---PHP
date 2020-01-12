@@ -14,18 +14,11 @@
     <div id="navItems ml-auto">
         <ul class="navbar-nav ">
             <li class="nav-item">
-                <a class="nav-link" href="../views/login.php">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../views/register.php">Register</a>
+                <a class="nav-link href="#">Hello Placeholder</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../connection/logout.php">Sign Out</a>
             </li>
-            <!-- REMOVE ME AT SOME POINT -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="../views/incidents.php">Incidents</a>
-            </li> -->
         </ul>
     </div>
 </nav>
