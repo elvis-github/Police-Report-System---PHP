@@ -2,10 +2,6 @@
     include '../partials/header.php';
     include '../connection/connection.php';
 
-    $pdo = new PDO($dsn, $user, $password);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
     $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect, offence.Offence_description AS Report
                         FROM incident 
                         JOIN vehicle
@@ -33,22 +29,20 @@
                 </thead>
                 <?php
                     while($row = $stmt->fetch()){
-                        echo '<tr>';
-                        echo '<td>'. $row->Incident_ID . '</td>';
-                        echo '<td>'. $row->Vehicle . '</td>';
-                        echo '<td>'. $row->Suspect . '</td>';
-                        echo '<td>'. $row->Incident_Date . '</td>';
-                        echo '<td>'. $row->Incident_Report . '</td>';
-                        echo '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>';
-                        echo '</tr>';
+                        echo '<tr>' . 
+                         '<td>'. $row->Incident_ID . '</td>' .
+                         '<td>'. $row->Vehicle . '</td>' .
+                         '<td>'. $row->Suspect . '</td>' . 
+                         '<td>'. $row->Incident_Date . '</td>' . 
+                         '<td>'. $row->Incident_Report . '</td>' .
+                         '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>' .
+                         '</tr>';
                     }
                 ?>
             </table>
             <a class="btn btn-outline-success" href="#">Add New Incident</a>
         </div>
     </div>
-</body>
-</html>
 
 <?php
     include '../partials/footer.php'
