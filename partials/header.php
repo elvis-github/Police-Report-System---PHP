@@ -1,3 +1,11 @@
+<?php
+    require_once  $_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php';
+    if(basename($_SERVER["SCRIPT_FILENAME"], '.php') != 'login'){
+        session_start();
+    }
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +21,22 @@
     <a class="navbar-brand mr-auto" href="../index.php">Police Reporting System</a>
     <div id="navItems ml-auto">
         <ul class="navbar-nav ">
-            <li class="nav-item">
-                <a class="nav-link href="#">Hello Placeholder</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../connection/logout.php">Sign Out</a>
-            </li>
+            <?php
+                if(isset($_SESSION["loggedIn"])){
+                    echo '
+                        <li class="nav-item">
+                            <span class="navbar-text text-light">Hello ' . $_SESSION["username"] . '</span>
+                        </li>
+            
+                        <li class="nav-item">
+                            <a class="nav-link" href="../connection/logout.php">Sign Out</a>
+                        </li>';
+                }
+            ?>
         </ul>
     </div>
 </nav>
+
+
 
 
