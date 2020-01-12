@@ -1,9 +1,9 @@
 <?php
     require_once  $_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php';
-    if(basename($_SERVER["SCRIPT_FILENAME"], '.php') != 'index'){
+    $fileName = basename($_SERVER["SCRIPT_FILENAME"], '.php');
+    if($fileName != 'index' && $fileName != 'main'){
         session_start();
-    }
-    
+    }    
 ?>
 
 <!DOCTYPE html>

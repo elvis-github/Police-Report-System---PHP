@@ -4,7 +4,7 @@
 
     //Check if the officer is already logged in, if yes, then redirect him to incidents page
     if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true){
-        header("location: incidents.php");
+        header("location: views/main.php");
         exit;
     }
 
@@ -59,7 +59,7 @@
                                 $_SESSION["username"] = $username;
 
                                 // Redirect user to incidents page
-                                header("location: views/incidents.php");
+                                header("location: views/main.php");
                             } else {
                                 // Display an error message if password is not valid
                                 $passwordError = "The password you entered was not valid.";
