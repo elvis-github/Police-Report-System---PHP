@@ -34,7 +34,7 @@
         // Validation
         if(empty($usernameError) && empty($passwordError)){
             //Select Statement
-            $sql = "SELECT officer_id, username, password FROM officers WHERE username = :username";
+            $sql = "SELECT officer_id, username, password, is_admin FROM officers WHERE username = :username";
             if($stmt = $pdo->prepare($sql)){
                 //Bind variables to the prepared statement as parameters
                 $stmt->bindParam(":username", $paramUsername, PDO::PARAM_STR);
@@ -47,9 +47,11 @@
                     // CHeck if username exists, if yes, then verify the password
                     if($stmt->rowCount() == 1){
                         if($row = $stmt->fetch()){
+                            print_r($row);
                             $id = $row->officer_id;
                             $username = $row->username;
                             $dbPassword = $row->password;
+                            $isAdmin = $row->is_admin;
                             if($dbPassword == $password){
                                 session_start();
 
@@ -57,6 +59,7 @@
                                 $_SESSION["loggedIn"] = true;
                                 $_SESSION["id"] = $id;
                                 $_SESSION["username"] = $username;
+                                $_SESSION["admin"] = $isAdmin;
 
                                 // Redirect user to incidents page
                                 header("location: views/main.php");

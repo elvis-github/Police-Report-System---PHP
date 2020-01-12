@@ -10,7 +10,7 @@
 ?>
 
 <div class="text-center container mt-3">
-    <h1>Hello <?php echo $_SESSION["username"]; ?></h1>
+    <h1>Hello <?php echo $_SESSION["username"]; if($_SESSION["admin"]){echo ' (Administrator)';} ?></h1>
     <section class="btn-group-vertical mt-3">
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="incidents.php">View Incidents</a>
@@ -24,6 +24,15 @@
             <a class="btn btn-outline-primary" href="#">View People</a>
             <a class="btn btn-outline-success" href="#">Add New Person</a>
         </div>
+        <?php
+            if($_SESSION["admin"]){
+                echo '
+                <div class="btn-group mb-3">
+                    <a class="btn btn-outline-primary" href="#">Add Fines</a>
+                    <a class="btn btn-outline-success" href="#">Create Officer</a>
+                </div> ';
+            }
+        ?>
     </section>
 </div>
 
