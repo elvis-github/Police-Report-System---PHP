@@ -33,7 +33,8 @@
                 </div> ';
             }
         ?>
-        <a class="btn btn-outline-danger" href="#">Change Password</a>
+        <a class="btn btn-warning" href="#">Change Password</a>
+        <a class="btn btn-danger mt-3" href="../connection/logout.php">Sign Out</a>
     </section>
 </div>
 
