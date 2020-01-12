@@ -1,7 +1,7 @@
 <?php
     require_once  $_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php';
     $fileName = basename($_SERVER["SCRIPT_FILENAME"], '.php');
-    if($fileName != 'index' && $fileName != 'main'){
+    if($fileName != 'index' && $fileName != 'main' && $fileName !='password'){
         session_start();
     }    
 ?>
