@@ -14,15 +14,15 @@
     <section class="btn-group-vertical mt-3">
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="incidents.php">View Incidents</a>
-            <a class="btn btn-outline-success">Add New Incident</a>
+            <a class="btn btn-outline-success" href="#">Add New Incident</a>
         </div>
         <div class="btn-group mb-3">
-            <a class="btn btn-outline-primary">View Vehicles</a>
-            <a class="btn btn-outline-success">Add New Vehicle</a>
+            <a class="btn btn-outline-primary" href="#">View Vehicles</a>
+            <a class="btn btn-outline-success" href="#">Add New Vehicle</a>
         </div>
         <div class="btn-group mb-3">
-            <a class="btn btn-outline-primary">View People</a>
-            <a class="btn btn-outline-success">Add New Person</a>
+            <a class="btn btn-outline-primary" href="#">View People</a>
+            <a class="btn btn-outline-success" href="#">Add New Person</a>
         </div>
     </section>
 </div>
