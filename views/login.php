@@ -84,11 +84,11 @@
         <form class=mt-3 action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form-group <?php echo (!empty($usernameError)) ? 'has-error' : ''; ?>">
                 <input type="text" name="username" placeholder="Username" value="<?php echo $username; ?>">
-                <span class="help-block"><?php echo $usernameError; ?></span>
+                <span class="d-block"><?php echo $usernameError; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($passwordError)) ? 'has-error' : ''; ?>">
                 <input type="text" name="password" placeholder="Password">
-                <span class="help-block"><?php echo $passwordError; ?></span>
+                <span class="d-block"><?php echo $passwordError; ?></span>
             </div>
             <button type="submit" class="btn btn-outline-success mb-2">Submit</button>
             
