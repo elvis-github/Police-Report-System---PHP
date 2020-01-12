@@ -33,6 +33,7 @@
                 </div> ';
             }
         ?>
+        <a class="btn btn-outline-danger" href="#">Change Password</a>
     </section>
 </div>
 
