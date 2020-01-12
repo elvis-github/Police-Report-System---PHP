@@ -18,7 +18,7 @@
         </div>
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="vehicles.php">View Vehicles</a>
-            <a class="btn btn-outline-success" href="#">Add New Vehicle</a>
+            <a class="btn btn-outline-success" href="../new/vehicle.php">Add New Vehicle</a>
         </div>
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="people.php">View People</a>
