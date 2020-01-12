@@ -13,16 +13,16 @@
     <h1>Hello <?php echo $_SESSION["username"]; ?></h1>
     <section class="btn-group-vertical mt-3">
         <div class="btn-group mb-3">
-            <button class="btn btn-outline-primary">View Incidents</button>
-            <button class="btn btn-outline-success">Add New Incident</button>
+            <a class="btn btn-outline-primary" href="incidents.php">View Incidents</a>
+            <a class="btn btn-outline-success">Add New Incident</a>
         </div>
         <div class="btn-group mb-3">
-            <button class="btn btn-outline-primary">View Vehicles</button>
-            <button class="btn btn-outline-success">Add New Vehicle</button>
+            <a class="btn btn-outline-primary">View Vehicles</a>
+            <a class="btn btn-outline-success">Add New Vehicle</a>
         </div>
         <div class="btn-group mb-3">
-            <button class="btn btn-outline-primary">View People</button>
-            <button class="btn btn-outline-success">Add New Person</button>
+            <a class="btn btn-outline-primary">View People</a>
+            <a class="btn btn-outline-success">Add New Person</a>
         </div>
     </section>
 </div>
