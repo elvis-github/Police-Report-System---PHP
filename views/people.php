@@ -39,23 +39,30 @@
     <script>
         function filter() {
             // Declare variables
-            var input, filter, table, tr, td, i, txtValue;
+            var input, filter, table, tr, td, i, txtValue, trCount;
             input = document.getElementById("search");
             filter = input.value.toUpperCase();
             table = document.getElementById("table");
             tr = table.getElementsByTagName("tr");
-
+            trCount = tr.length;
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
+                tdName = tr[i].getElementsByTagName("td")[1];
+                tdLicence = tr[i].getElementsByTagName("td")[3];
+                if (tdName || tdLicence) {
+                    txtValueName = tdName.textContent || tdName.innerText;
+                    txtValueLicence = tdLicence.textContent || tdLicence.innerText;
+                    if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueLicence.toUpperCase().indexOf(filter) > -1) {
+                        if(tr[i].style.display == "none"){
+                            tr[i].style.display = "";
+                            trCount++;
+                        }
                     } else {
                         tr[i].style.display = "none";
+                        trCount--;
                     }
                 }
+                console.log(trCount);
             }
         }
     </script>
