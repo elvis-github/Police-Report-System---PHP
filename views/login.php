@@ -87,7 +87,7 @@
                 <span class="d-block"><?php echo $usernameError; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($passwordError)) ? 'has-error' : ''; ?>">
-                <input type="text" name="password" placeholder="Password">
+                <input type="password" name="password" placeholder="Password">
                 <span class="d-block"><?php echo $passwordError; ?></span>
             </div>
             <button type="submit" class="btn btn-outline-success mb-2">Submit</button>
