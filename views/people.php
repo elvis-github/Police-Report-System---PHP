@@ -2,6 +2,11 @@
     include '../partials/header.php';
     include '../connection/connection.php';
 
+    if(!isset($_SESSION["loggedIn"])){
+        header("location: ../index.php");
+        exit;
+    }
+    
     $stmt = $pdo->query('SELECT * FROM people');
 
 ?>

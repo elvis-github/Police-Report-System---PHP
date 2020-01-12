@@ -1,7 +1,12 @@
 <?php
     include '../partials/header.php';
-    include '../connection/connection.php';
+    
+    if(!isset($_SESSION["loggedIn"])){
+        header("location: ../index.php");
+        exit;
+    }
 
+    require_once '../connection/connection.php';
     $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect, offence.Offence_description AS Report
                         FROM incident 
                         JOIN vehicle

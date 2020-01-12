@@ -1,6 +1,12 @@
 <?php
     include '../partials/header.php';
-    include '../connection/connection.php';
+
+    if(!isset($_SESSION["loggedIn"])){
+        header("location: ../index.php");
+        exit;
+    }
+
+    require_once '../connection/connection.php';
 
     $stmt = $pdo->query('SELECT vehicle.*, people.People_name AS Owner
                         FROM ownership
@@ -16,7 +22,7 @@
 ?>
     <div class="container">
         <div class="text-center mt-3">
-            <h1>Vehicle</h1>
+            <h1>Vehicles</h1>
             <input class="pl-1" type="text" id="search" onkeyup="filter()" size="33" placeholder="Search by licence number">
             <table id="table" class="table table-bordered mt-3">
                 <thead class="thead-dark">
