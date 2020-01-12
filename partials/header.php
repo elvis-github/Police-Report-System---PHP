@@ -1,6 +1,6 @@
 <?php
     require_once  $_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php';
-    if(basename($_SERVER["SCRIPT_FILENAME"], '.php') != 'login'){
+    if(basename($_SERVER["SCRIPT_FILENAME"], '.php') != 'index'){
         session_start();
     }
     
