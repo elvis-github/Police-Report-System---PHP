@@ -38,6 +38,8 @@
                          '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>' .
                          '</tr>';
                     }
+                    unset($stmt);
+                    unset($pdo);
                 ?>
             </table>
             <a class="btn btn-outline-success" href="#">Add New Incident</a><br>
