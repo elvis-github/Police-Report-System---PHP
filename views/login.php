@@ -81,12 +81,14 @@
 <div class="container">
     <div class="text-center mt-3">
         <h1>Police Reporting System - Login</h1>
-        <form class=mt-3>
-            <div class="form-group">
-                <input type="text" name="username" placeholder="Username">
+        <form class=mt-3 action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <div class="form-group <?php echo (!empty($usernameError)) ? 'has-error' : ''; ?>">
+                <input type="text" name="username" placeholder="Username" value="<?php echo $username; ?>">
+                <span class="help-block"><?php echo $usernameError; ?></span>
             </div>
-            <div class="form-group">
+            <div class="form-group <?php echo (!empty($passwordError)) ? 'has-error' : ''; ?>">
                 <input type="text" name="password" placeholder="Password">
+                <span class="help-block"><?php echo $passwordError; ?></span>
             </div>
             <button type="submit" class="btn btn-outline-success mb-2">Submit</button>
             
