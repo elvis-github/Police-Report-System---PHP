@@ -7,9 +7,10 @@
     }
 
     require_once '../connection/connection.php';
-    $vehicleTypeVal = $licenceErr = '';
-    $vehicleColorVal = '';
+    $vehicleTypeVal = $vehicleColorVal = $licenceErr = '';
+
     if(isset($_POST["submit"])){
+        //Assign values for text inputs below
         $vehicleTypeVal = $_POST["vehicleType"];
         $vehicleColorVal = $_POST["color"];
 
