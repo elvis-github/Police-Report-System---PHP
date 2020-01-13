@@ -7,57 +7,63 @@
     }
 
     require_once '../connection/connection.php';
+    $licenceErr = '';
+
     if(isset($_POST["submit"])){
-        
-        // SQL statement to insert into Vehicle Table
-        $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
-        VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
-        if($pdo->query($sql)){
-            // Once inserted, check if owner was set
-            if(isset($_POST["owner"])){
-                // If Owner is set, add Owner and Vehicle ID to Ownership table
-                echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
-                
-                // Retrieve vehicle ID from added Vehicle
-                $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
-                $paramLicence = ($_POST["licence"]);
-                $stmt->execute();
-                $row = $stmt->fetch();
+        //Check if licence is correct format
+        $_POST["licence"] = strtoupper($_POST["licence"]);
+        if(verifyLicence($_POST["licence"])){
+            // SQL statement to insert into Vehicle Table
+            $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
+            VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
+            if($pdo->query($sql)){
+                // Once inserted, check if owner was set
+                if(isset($_POST["owner"])){
+                    // If Owner is set, add Owner and Vehicle ID to Ownership table
+                    echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
+                    
+                    // Retrieve vehicle ID from added Vehicle
+                    $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
+                    $paramLicence = ($_POST["licence"]);
+                    $stmt->execute();
+                    $row = $stmt->fetch();
 
-                // Set vehicle ID as a variable
-                $vehicleID = $row->Vehicle_ID;
-                unset($stmt);
+                    // Set vehicle ID as a variable
+                    $vehicleID = $row->Vehicle_ID;
+                    unset($stmt);
 
-                // Insert People ID and Vehicle ID to Ownership table
-                $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
-                VALUES ('".$_POST["owner"]."','".$vehicleID."')";
-                $pdo->query($sql);
-                
-            }
-            unset($pdo);
-            header("location: ../views/vehicles.php");
-            exit;
+                    // Insert People ID and Vehicle ID to Ownership table
+                    $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
+                    VALUES ('".$_POST["owner"]."','".$vehicleID."')";
+                    $pdo->query($sql);
+                    
+                }
+                unset($pdo);
+                header("location: ../views/vehicles.php");
+                exit;
+            } 
+       
         } else {
-            echo '<h1>An error has occurred</h1>';
+            echo '<h1>Licence format error</h1>';
         }
         
     }
 
     function verifyLicence($str){
-        $str = strtolower($str);
-        if($str.strlen() == 7){
-            if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3})/', $str){
-                return true;
-            } else {
+        if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3}/', $str)){
+            $licenceErr = '';
+            return true;
+        } else {
+            if(strlen($str) != 7){
+               $licenceErr = 'Licence length is incorrect. Must be 7 Characters in Length!'; // Length is incorrect
+               return false;
+            } else { 
+                $licenceErr = 'Licence format is incorrect. Must be 2 Alpha characters, 2 Numbers, and 3 Alpha Characters.'; // Licence format is incorrect
                 return false;
             }
-        } else {
-            return 0; // Licence is too long
         }
-        return false;
-        
     }
     
 ?>
