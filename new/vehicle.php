@@ -8,18 +8,24 @@
 
     require_once '../connection/connection.php';
     if(isset($_POST["submit"])){
-        $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
-        VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
-        if($pdo->query($sql)){
-            echo '<h1>Inserted Successfully</h1>';
-            unset($pdo);
-            header("location: ../views/vehicles.php");
-            exit;
+        if(isset($_POST["owner"])){
+            echo '<h1>Owner Entered</h1>';
+            $sql = "SELECT People_ID 
+                    FROM people 
+                    WHERE People_ID = " . $_POST["owner"];
         } else {
-            echo '<h1>An error has occurred</h1>';
+            $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
+            VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
+            if($pdo->query($sql)){
+                unset($pdo);
+                header("location: ../views/vehicles.php");
+                exit;
+            } else {
+                echo '<h1>An error has occurred</h1>';
+            }
         }
     }
-    unset($pdo);
+    
 ?>
     <div class="container">
         <div class="mt-3">
@@ -38,8 +44,20 @@
                     <input type="text" name="licence" required="required" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>Owner</label>
-                    <input type="text" name="owner" class="form-control">
+                    <label>Owner</label><a class="ml-1 badge badge-success" href="../new/person.php">Add New Person</a>
+                    <select class="d-block">
+                        <option selected>Choose...</option>
+                        <?php
+                            $stmt = $pdo->query("SELECT People_ID, People_name, People_licence
+                                                FROM people");
+                            while($row = $stmt->fetch()){
+                                echo '<option value="' . $row->People_ID.'">' . $row->People_name . ' (' . $row->People_licence . ')</option>';
+                            }
+                            unset($stmt);
+                            unset($pdo);
+                        ?>   
+                    </select>
+
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="submit" value="Submit">
