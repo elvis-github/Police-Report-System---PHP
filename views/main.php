@@ -22,7 +22,7 @@
         </div>
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="people.php">View People</a>
-            <a class="btn btn-outline-success" href="#">Add New Person</a>
+            <a class="btn btn-outline-success" href="../new/person.php">Add New Person</a>
         </div>
         <?php
             if($_SESSION["admin"]){
