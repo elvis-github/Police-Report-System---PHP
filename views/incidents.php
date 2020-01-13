@@ -48,7 +48,7 @@
                 ?>
             </table>
             <a class="btn btn-outline-success" href="#">Add New Incident</a><br>
-            <a class="btn btn-sm btn-primary mt-2" href="main.php">Go Back To Main</a>
+            <a class="btn btn-sm btn-primary mt-2 mb-3" href="main.php">Go Back To Main</a>
         </div>
     </div>
 

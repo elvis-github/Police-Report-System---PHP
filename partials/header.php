@@ -17,7 +17,7 @@
 <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <a class="navbar-brand mr-auto" href="../index.php">Police Reporting System</a>
     <div id="navItems ml-auto">
         <ul class="navbar-nav ">
