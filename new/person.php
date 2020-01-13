@@ -7,16 +7,22 @@
     }
 
     require_once '../connection/connection.php';
-    $nameVal = $addrVal = $licenceErr = '';
+    $nameVal = $nameErr= $addrVal = $licenceErr = '';
 
     if(isset($_POST["submit"])){
-        //Assign values for text inputs below
         $nameVal = $_POST["name"];
         $addrVal = $_POST["address"];
+
+        if(!preg_match("/^[a-zA-z]*[ ][a-zA-z]+$/", $_POST["name"])){
+            $nameErr = "Please enter a full name";
+        }
+        //Assign values for text inputs below
+        
 
         //Check if licence is correct format
         $_POST["licence"] = strtoupper($_POST["licence"]);
         if(verifyLicence($_POST["licence"])){
+            echo 'Verified Licence';
             // SQL statement to insert into Vehicle Table
             
             // $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
@@ -76,6 +82,7 @@
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" name="name" required="required" class="form-control" value="<?php echo $nameVal ?>">
+                    <span class="d-block text-danger"><?php echo $nameErr; ?></span>
                 </div>
                 <div class="form-group">
                     <label>Address</label>
