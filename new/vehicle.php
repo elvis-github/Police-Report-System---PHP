@@ -9,7 +9,7 @@
     require_once '../connection/connection.php';
     if(isset($_POST["submit"])){
         if(isset($_POST["owner"])){
-            echo '<h1>Owner Entered</h1>';
+            echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
             $sql = "SELECT People_ID 
                     FROM people 
                     WHERE People_ID = " . $_POST["owner"];
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label>Owner</label><a class="ml-1 badge badge-success" href="../new/person.php">Add New Person</a>
-                    <select class="d-block">
+                    <select name="owner" class="d-block">
                         <option selected>Choose...</option>
                         <?php
                             $stmt = $pdo->query("SELECT People_ID, People_name, People_licence
