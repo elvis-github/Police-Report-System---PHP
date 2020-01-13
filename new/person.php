@@ -23,38 +23,15 @@
         $_POST["licence"] = strtoupper($_POST["licence"]);
         if(verifyLicence($_POST["licence"])){
             echo 'Verified Licence';
-            // SQL statement to insert into Vehicle Table
-            
-            // $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
-            // VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
-            // if($pdo->query($sql)){
-            //     // Once inserted, check if owner was set
-            //     if(isset($_POST["owner"])){
-            //         // If Owner is set, add Owner and Vehicle ID to Ownership table
-            //         echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
-                    
-            //         // Retrieve vehicle ID from added Vehicle
-            //         $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
-            //         $stmt = $pdo->prepare($sql);
-            //         $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
-            //         $paramLicence = ($_POST["licence"]);
-            //         $stmt->execute();
-            //         $row = $stmt->fetch();
 
-            //         // Set vehicle ID as a variable
-            //         $vehicleID = $row->Vehicle_ID;
-            //         unset($stmt);
-
-            //         // Insert People ID and Vehicle ID to Ownership table
-            //         $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
-            //         VALUES ('".$_POST["owner"]."','".$vehicleID."')";
-            //         $pdo->query($sql);
-                    
-            //     }
-            //     unset($pdo);
-            //     header("location: ../views/person.php");
-            //     exit;
-            // } 
+            // SQL statement to insert into People Table
+            $sql = "INSERT INTO people (People_name, People_address, People_licence)
+            VALUES ('".$_POST["name"]."','".$_POST["address"]."','".$_POST["licence"]."')";
+            if($pdo->query($sql)){
+                unset($pdo);
+                header("location: ../views/people.php");
+                exit;
+            } 
         }
     }
 
