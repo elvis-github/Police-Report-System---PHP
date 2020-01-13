@@ -7,13 +7,17 @@
     }
 
     require_once '../connection/connection.php';
-    $licenceErr = '';
-    
+    $vehicleTypeVal = $licenceErr = '';
+    $vehicleColorVal = '';
     if(isset($_POST["submit"])){
+        $vehicleTypeVal = $_POST["vehicleType"];
+        $vehicleColorVal = $_POST["color"];
+
         //Check if licence is correct format
         $_POST["licence"] = strtoupper($_POST["licence"]);
         if(verifyLicence($_POST["licence"])){
             // SQL statement to insert into Vehicle Table
+            
             $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
             VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
             if($pdo->query($sql)){
@@ -69,11 +73,11 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
                 <div class="form-group">
                     <label>Make & Model</label>
-                    <input type="text" name="vehicleType" required="required" class="form-control" value="">
+                    <input type="text" name="vehicleType" required="required" class="form-control" value="<?php echo $vehicleTypeVal ?>">
                 </div>
                 <div class="form-group">
                     <label>Colour</label>
-                    <input type="text" name="color" required="required" class="form-control">
+                    <input type="text" name="color" required="required" class="form-control" value="<?php echo $vehicleColorVal ?>">
                 </div>
                 <div class="form-group">
                     <label>Licence</label>
