@@ -8,22 +8,40 @@
 
     require_once '../connection/connection.php';
     if(isset($_POST["submit"])){
-        if(isset($_POST["owner"])){
-            echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
-            $sql = "SELECT People_ID 
-                    FROM people 
-                    WHERE People_ID = " . $_POST["owner"];
-        } else {
-            $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
-            VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
-            if($pdo->query($sql)){
-                unset($pdo);
-                header("location: ../views/vehicles.php");
-                exit;
-            } else {
-                echo '<h1>An error has occurred</h1>';
+        // SQL statement to insert into Vehicle Table
+        $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
+        VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
+        if($pdo->query($sql)){
+            // Once inserted, check if owner was set
+            if(isset($_POST["owner"])){
+                // If Owner is set, add Owner and Vehicle ID to Ownership table
+                echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
+                
+                // Retrieve vehicle ID from added Vehicle
+                $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
+                $paramLicence = ($_POST["licence"]);
+                $stmt->execute();
+                $row = $stmt->fetch();
+
+                // Set vehicle ID as a variable
+                $vehicleID = $row->Vehicle_ID;
+                unset($stmt);
+
+                // Insert People ID and Vehicle ID to Ownership table
+                $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
+                VALUES ('".$_POST["owner"]."','".$vehicleID."')";
+                $pdo->query($sql);
+                
             }
+            unset($pdo);
+            header("location: ../views/vehicles.php");
+            exit;
+        } else {
+            echo '<h1>An error has occurred</h1>';
         }
+        
     }
     
 ?>
