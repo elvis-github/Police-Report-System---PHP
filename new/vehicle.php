@@ -8,6 +8,7 @@
 
     require_once '../connection/connection.php';
     if(isset($_POST["submit"])){
+        
         // SQL statement to insert into Vehicle Table
         $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
         VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
@@ -41,6 +42,21 @@
         } else {
             echo '<h1>An error has occurred</h1>';
         }
+        
+    }
+
+    function verifyLicence($str){
+        $str = strtolower($str);
+        if($str.strlen() == 7){
+            if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3})/', $str){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return 0; // Licence is too long
+        }
+        return false;
         
     }
     
