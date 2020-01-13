@@ -8,7 +8,7 @@
 
     require_once '../connection/connection.php';
     $licenceErr = '';
-
+    
     if(isset($_POST["submit"])){
         //Check if licence is correct format
         $_POST["licence"] = strtoupper($_POST["licence"]);
@@ -44,23 +44,19 @@
                 header("location: ../views/vehicles.php");
                 exit;
             } 
-       
-        } else {
-            echo '<h1>Licence format error</h1>';
         }
-        
     }
 
     function verifyLicence($str){
-        if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3}/', $str)){
+        if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3}$/', $str)){
             $licenceErr = '';
             return true;
         } else {
             if(strlen($str) != 7){
-               $licenceErr = 'Licence length is incorrect. Must be 7 Characters in Length!'; // Length is incorrect
+               $GLOBALS['licenceErr'] = 'Licence length is incorrect. Must be 7 Characters in Length!'; // Length is incorrect
                return false;
             } else { 
-                $licenceErr = 'Licence format is incorrect. Must be 2 Alpha characters, 2 Numbers, and 3 Alpha Characters.'; // Licence format is incorrect
+                $GLOBALS['licenceErr'] = 'Licence format is incorrect. Must be 2 Alpha characters, 2 Numbers, and 3 Alpha Characters.'; // Licence format is incorrect
                 return false;
             }
         }
@@ -70,7 +66,7 @@
     <div class="container">
         <div class="mt-3">
             <h1>Add New Vehicle</h1>
-            <form action="" method="POST"> 
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
                 <div class="form-group">
                     <label>Make & Model</label>
                     <input type="text" name="vehicleType" required="required" class="form-control" value="">
@@ -82,6 +78,7 @@
                 <div class="form-group">
                     <label>Licence</label>
                     <input type="text" name="licence" required="required" class="form-control">
+                    <span class="d-block text-danger"><?php echo $licenceErr; ?></span>
                 </div>
                 <div class="form-group">
                     <label>Owner</label><a class="ml-1 badge badge-success" href="../new/person.php">Add New Person</a>
