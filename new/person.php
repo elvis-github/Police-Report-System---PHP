@@ -9,63 +9,64 @@
     require_once '../connection/connection.php';
     $nameVal = $addrVal = $licenceErr = '';
 
-    // if(isset($_POST["submit"])){
-    //     //Assign values for text inputs below
-    //     $vehicleTypeVal = $_POST["vehicleType"];
-    //     $vehicleColorVal = $_POST["color"];
+    if(isset($_POST["submit"])){
+        //Assign values for text inputs below
+        $nameVal = $_POST["name"];
+        $addrVal = $_POST["address"];
 
-    //     //Check if licence is correct format
-    //     $_POST["licence"] = strtoupper($_POST["licence"]);
-    //     if(verifyLicence($_POST["licence"])){
-    //         // SQL statement to insert into Vehicle Table
+        //Check if licence is correct format
+        $_POST["licence"] = strtoupper($_POST["licence"]);
+        if(verifyLicence($_POST["licence"])){
+            // SQL statement to insert into Vehicle Table
             
-    //         $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
-    //         VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
-    //         if($pdo->query($sql)){
-    //             // Once inserted, check if owner was set
-    //             if(isset($_POST["owner"])){
-    //                 // If Owner is set, add Owner and Vehicle ID to Ownership table
-    //                 echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
+            // $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
+            // VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
+            // if($pdo->query($sql)){
+            //     // Once inserted, check if owner was set
+            //     if(isset($_POST["owner"])){
+            //         // If Owner is set, add Owner and Vehicle ID to Ownership table
+            //         echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
                     
-    //                 // Retrieve vehicle ID from added Vehicle
-    //                 $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
-    //                 $stmt = $pdo->prepare($sql);
-    //                 $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
-    //                 $paramLicence = ($_POST["licence"]);
-    //                 $stmt->execute();
-    //                 $row = $stmt->fetch();
+            //         // Retrieve vehicle ID from added Vehicle
+            //         $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
+            //         $stmt = $pdo->prepare($sql);
+            //         $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
+            //         $paramLicence = ($_POST["licence"]);
+            //         $stmt->execute();
+            //         $row = $stmt->fetch();
 
-    //                 // Set vehicle ID as a variable
-    //                 $vehicleID = $row->Vehicle_ID;
-    //                 unset($stmt);
+            //         // Set vehicle ID as a variable
+            //         $vehicleID = $row->Vehicle_ID;
+            //         unset($stmt);
 
-    //                 // Insert People ID and Vehicle ID to Ownership table
-    //                 $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
-    //                 VALUES ('".$_POST["owner"]."','".$vehicleID."')";
-    //                 $pdo->query($sql);
+            //         // Insert People ID and Vehicle ID to Ownership table
+            //         $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
+            //         VALUES ('".$_POST["owner"]."','".$vehicleID."')";
+            //         $pdo->query($sql);
                     
-    //             }
-    //             unset($pdo);
-    //             header("location: ../views/vehicles.php");
-    //             exit;
-    //         } 
-    //     }
-    // }
+            //     }
+            //     unset($pdo);
+            //     header("location: ../views/person.php");
+            //     exit;
+            // } 
+        }
+    }
 
-    // function verifyLicence($str){
-    //     if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3}$/', $str)){
-    //         $licenceErr = '';
-    //         return true;
-    //     } else {
-    //         if(strlen($str) != 7){
-    //            $GLOBALS['licenceErr'] = 'Licence length is incorrect. Must be 7 Characters in Length!'; // Length is incorrect
-    //            return false;
-    //         } else { 
-    //             $GLOBALS['licenceErr'] = 'Licence format is incorrect. Must be 2 Alpha characters, 2 Numbers, and 3 Alpha Characters.'; // Licence format is incorrect
-    //             return false;
-    //         }
-    //     }
-    // }
+    function verifyLicence($str){
+        if(strlen($str) != 16){
+            $GLOBALS['licenceErr'] = 'Licence length is incorrect. Must be 16 Characters in Length!'; // Length is incorrect
+            return false;
+        } else {
+            $startIndex = strpos($_POST["name"], ' ') + 1;
+            $endIndex = strlen($_POST["name"]);
+            $substrEndIndex = $endIndex - $startIndex;
+            if(substr($str, 0, $substrEndIndex) != strtoupper(substr($_POST["name"], $startIndex))){
+                $GLOBALS['licenceErr'] = 'Licence format is incorrect. Must be last name followed by alphanumeric characters for a total length of 16'; // Licence format is incorrect'
+            } else {
+                return true;
+            }
+        }
+    }
     
 ?>
     <div class="container">
