@@ -7,17 +7,22 @@
     }
 
     require_once '../connection/connection.php';
-    $nameVal = $nameErr= $addrVal = $licenceErr = '';
+    $nameVal = $nameErr = $addrVal = $addrErr = $licenceVal = $licenceErr = '';
 
     if(isset($_POST["submit"])){
         $nameVal = $_POST["name"];
         $addrVal = $_POST["address"];
+        $licenceVal = $_POST["licence"];
 
+        // Check if officer has added a full name
         if(!preg_match("/^[a-zA-z]*[ ][a-zA-z]+$/", $_POST["name"])){
             $nameErr = "Please enter a full name";
         }
-        //Assign values for text inputs below
-        
+
+        // Check if address is correct format       
+        if(!preg_match("/^[0-9]*[ ]{1}[a-zA-Z]*[ ]{1}[a-zA-z]*[,]{1}[ ]{1}[a-zA-Z]*$/", $_POST["address"])){
+            $addrErr = "Incorrect address format. Please match the following format: StreetNumber StreetAdress, CityName. Example: 6774 Wandering Way, Norcross";
+        }
 
         //Check if licence is correct format
         $_POST["licence"] = strtoupper($_POST["licence"]);
@@ -64,10 +69,11 @@
                 <div class="form-group">
                     <label>Address</label>
                     <input type="text" name="address" required="required" class="form-control" value="<?php echo $addrVal ?>">
+                    <span class="d-block text-danger"><?php echo $addrErr; ?></span>
                 </div>
                 <div class="form-group">
                     <label>Person's Licence</label>
-                    <input type="text" name="licence" required="required" class="form-control">
+                    <input type="text" name="licence" required="required" class="form-control" value="<?php echo $licenceVal ?>">
                     <span class="d-block text-danger"><?php echo $licenceErr; ?></span>
                 </div>
                 <div class="form-group">
