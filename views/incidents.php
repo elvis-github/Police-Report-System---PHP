@@ -24,7 +24,8 @@
     <div class="container">
         <div class="text-center mt-3">
             <h1>Incidents</h1>
-            <table class="table table-bordered mt-3">
+            <input class="pl-1" type="text" id="search" onkeyup="filter()" size="33" placeholder="Search by date or name">
+            <table id="table" class="table table-bordered mt-3">
                 <thead class="thead-dark">
                     <tr>
                         <th>Date</th>
@@ -56,6 +57,39 @@
             <a class="btn btn-sm btn-primary mt-2 mb-3" href="main.php">Go Back To Main</a>
         </div>
     </div>
+
+<script>
+    var tr = table.getElementsByTagName("tr");
+    var trCount = tr.length - 1;
+    function filter() {
+        // Declare variables
+        var input, filter, table, td, i, txtValue, hiddenCount;
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            tdDate = tr[i].getElementsByTagName("td")[0];
+            tdName = tr[i].getElementsByTagName("td")[2];
+            if (tdDate || tdName) {
+                txtValueName = tdDate.textContent || tdDate.innerText;
+                txtValueLicence = tdName.textContent || tdName.innerText;
+                if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueLicence.toUpperCase().indexOf(filter) > -1) {
+                    if(tr[i].style.display == "none"){
+                        tr[i].style.display = "";
+                    }
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+            if($('tr[style*="display: none"]').length == trCount){
+                $('#noRecords').removeClass("d-none");
+            } else {
+                $('#noRecords').addClass("d-none");
+            }
+        }
+    }
+</script>
 
 <?php
     include '../partials/footer.php'
