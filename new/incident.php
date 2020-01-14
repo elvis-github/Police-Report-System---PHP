@@ -7,7 +7,24 @@
     }
 
     require_once '../connection/connection.php';
-    $statementVal = $dateVal = '';
+    $vehicle = $person = $date = $statement = $offense = '';
+
+    if(isset($_GET['edit'])){
+        echo '<h1>Hi There</h1>';
+        $id = $_GET['edit'];
+        
+        $stmt = $pdo->query("SELECT * FROM incident WHERE Incident_ID=$id");
+        if($stmt->rowCount() == 1){
+            $row = $stmt->fetch();
+            print_r($row);
+            $vehicle = $row->Vehicle_ID;
+            $person = $row->People_ID;
+            $date = $row->Incident_Date;
+            $statement = $row->Incident_Report;
+            $offense = $row->Offence_ID;
+        } 
+        
+    }
 
     if(isset($_POST["submit"])){
         
@@ -33,11 +50,11 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" name="date" required="required" class="form-control">
+                    <input type="date" name="date" required="required" class="form-control" value="<?php echo $date ?>">
                 </div>
                 <div class="form-group">
                     <label>Statement</label>
-                    <input type="text" name="statement" required="required" class="form-control">
+                    <input type="text" name="statement" required="required" class="form-control" value="<?php echo $statement ?>">
                 </div>
                 <div class="form-group">
                     <label>Vehicle</label><a class="ml-1 badge badge-success" href="../new/vehicle.php">Add New Vehicle</a>

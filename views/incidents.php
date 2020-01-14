@@ -46,7 +46,7 @@
                          '<td>'. $row->Incident_Report . '</td>' .
                          '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>' .
                          '<td>'. ($row->Fine ? $row->Fine : '---') . '</td>' .
-                         '<td><a href="edit?'. $row->Incident_ID .'" class="text-success">Edit</a></td>' . 
+                         '<td><a href="../new/incident.php?edit='. $row->Incident_ID .'" class="text-success">Edit</a></td>' . 
                          '</tr>';
                     }
                     unset($stmt);
