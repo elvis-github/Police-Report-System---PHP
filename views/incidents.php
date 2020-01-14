@@ -27,10 +27,9 @@
             <table class="table table-bordered mt-3">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Incident ID#</th>
+                        <th>Date</th>
                         <th>Vehicle</th>
                         <th>Suspect</th>
-                        <th>Date</th>
                         <th>Report</th>
                         <th>Offence</th>
                         <th>Fine</th>
@@ -39,13 +38,12 @@
                 <?php
                     while($row = $stmt->fetch()){
                         echo '<tr>' . 
-                         '<td>'. $row->Incident_ID . '</td>' .
+                         '<td>'. $row->Incident_Date . '</td>' .
                          '<td>'. $row->Vehicle . '</td>' .
                          '<td>'. $row->Suspect . '</td>' . 
-                         '<td>'. $row->Incident_Date . '</td>' . 
                          '<td>'. $row->Incident_Report . '</td>' .
                          '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>' .
-                         '<td>'. $row->Fine . '</td>' .
+                         '<td>'. ($row->Fine ? $row->Fine : '---') . '</td>' .
                          '</tr>';
                     }
                     unset($stmt);
