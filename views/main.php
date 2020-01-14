@@ -34,7 +34,7 @@
             if($_SESSION["admin"]){
                 echo '
                 <div class="btn-group mb-3">
-                    <a class="btn btn-outline-primary" href="#">Add Fines</a>
+                    <a class="btn btn-outline-primary" href="../new/fine.php">Add Fines</a>
                     <a class="btn btn-outline-success" href="../new/officer.php">Create Officer</a>
                 </div> ';
             }
