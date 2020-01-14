@@ -8,8 +8,10 @@
 
     require_once '../connection/connection.php';
     $vehicle = $person = $date = $statement = $offense = '';
-
+    $editStatus = false;
+    
     if(isset($_GET['edit'])){
+        $editStatus = true;
         echo '<h1>Hi There</h1>';
         $id = $_GET['edit'];
         
@@ -46,7 +48,10 @@
 ?>
     <div class="container">
         <div class="mt-3">
-            <h1>Add New Incident</h1>
+            <?php 
+                ($editStatus ? $h1Msg = 'Edit Incident' : $h1Msg = 'Add New Incident');
+                echo '<h1>'.$h1Msg.'</h1>';
+            ?>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
                 <div class="form-group">
                     <label>Date</label>
