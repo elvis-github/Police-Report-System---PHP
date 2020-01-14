@@ -14,7 +14,7 @@
     <section class="btn-group-vertical mt-3">
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="incidents.php">View Incidents</a>
-            <a class="btn btn-outline-success" href="#">Add New Incident</a>
+            <a class="btn btn-outline-success" href="../new/incident.php">Add New Incident</a>
         </div>
         <div class="btn-group mb-3">
             <a class="btn btn-outline-primary" href="vehicles.php">View Vehicles</a>
