@@ -7,6 +7,11 @@
         header("location: ../index.php");
         exit;
     }
+
+    if(!empty($_SESSION['message'])){
+        $message = $_SESSION['message'];
+        echo '<h2 id="message" class="text-center mt-2">' . $message . '</h2>';
+    }
 ?>
 
 <div class="text-center container mt-3">
@@ -38,6 +43,12 @@
     </section>
 </div>
 
+
+
 <?php
     include '../partials/footer.php'
 ?>
+
+<script>
+    $("#message").fadeOut("slow");
+</script>

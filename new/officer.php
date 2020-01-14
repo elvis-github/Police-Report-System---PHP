@@ -50,6 +50,7 @@
                 // Attempt to execute the prepared statement
                 if($stmt->execute()){
                     // Account added successfully. Redirect to login page
+                    $_SESSION['message'] = 'Officer Successfully Added!';
                     header("location: ../views/main.php");
                     exit();
                 } else{
