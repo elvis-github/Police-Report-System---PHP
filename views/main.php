@@ -7,6 +7,12 @@
         header("location: ../index.php");
         exit;
     }
+
+    if(!empty($_SESSION['message'])){
+        $message = $_SESSION['message'];
+        echo '<h2 id="message" class="text-center text-success mt-2">' . $message . '</h2>';
+        unset($_SESSION['message']);
+    }
 ?>
 
 <div class="text-center container mt-3">
@@ -29,7 +35,7 @@
                 echo '
                 <div class="btn-group mb-3">
                     <a class="btn btn-outline-primary" href="#">Add Fines</a>
-                    <a class="btn btn-outline-success" href="#">Create Officer</a>
+                    <a class="btn btn-outline-success" href="../new/officer.php">Create Officer</a>
                 </div> ';
             }
         ?>
@@ -38,6 +44,12 @@
     </section>
 </div>
 
+
+
 <?php
     include '../partials/footer.php'
 ?>
+
+<script>
+    $("#message").delay(2000).fadeOut(3000);
+</script>
