@@ -7,65 +7,24 @@
     }
 
     require_once '../connection/connection.php';
-    $statementVal = $dateVal = $dateErr = '';
+    $statementVal = $dateVal = '';
 
-    // if(isset($_POST["submit"])){
-    //     //Assign values for text inputs below
-    //     $vehicleTypeVal = $_POST["vehicleType"];
-    //     $vehicleColorVal = $_POST["color"];
-
-    //     //Check if licence is correct format
-    //     $_POST["licence"] = strtoupper($_POST["licence"]);
-    //     if(verifyLicence($_POST["licence"])){
-    //         // SQL statement to insert into Vehicle Table
-            
-    //         $sql = "INSERT INTO vehicle (Vehicle_type, Vehicle_colour, Vehicle_licence)
-    //         VALUES ('".$_POST["vehicleType"]."','".$_POST["color"]."','".$_POST["licence"]."')";
-    //         if($pdo->query($sql)){
-    //             // Once inserted, check if owner was set
-    //             if(isset($_POST["owner"])){
-    //                 // If Owner is set, add Owner and Vehicle ID to Ownership table
-    //                 echo '<h1>Owner Entered '. $_POST["owner"] . '</h1>';
-                    
-    //                 // Retrieve vehicle ID from added Vehicle
-    //                 $sql = 'SELECT Vehicle_ID from vehicle WHERE Vehicle_licence = :licence';
-    //                 $stmt = $pdo->prepare($sql);
-    //                 $stmt->bindParam(':licence', $paramLicence, PDO::PARAM_STR);
-    //                 $paramLicence = ($_POST["licence"]);
-    //                 $stmt->execute();
-    //                 $row = $stmt->fetch();
-
-    //                 // Set vehicle ID as a variable
-    //                 $vehicleID = $row->Vehicle_ID;
-    //                 unset($stmt);
-
-    //                 // Insert People ID and Vehicle ID to Ownership table
-    //                 $sql = "INSERT INTO ownership (People_ID, Vehicle_ID)
-    //                 VALUES ('".$_POST["owner"]."','".$vehicleID."')";
-    //                 $pdo->query($sql);
-                    
-    //             }
-    //             unset($pdo);
-    //             header("location: ../views/vehicles.php");
-    //             exit;
-    //         } 
-    //     }
-    // }
-
-    // function verifyLicence($str){
-    //     if(preg_match('/^[A-Z]{2}[0-9]{2}[A-Z]{3}$/', $str)){
-    //         $licenceErr = '';
-    //         return true;
-    //     } else {
-    //         if(strlen($str) != 7){
-    //            $GLOBALS['licenceErr'] = 'Licence length is incorrect. Must be 7 Characters in Length!'; // Length is incorrect
-    //            return false;
-    //         } else { 
-    //             $GLOBALS['licenceErr'] = 'Licence format is incorrect. Must be 2 Alpha characters, 2 Numbers, and 3 Alpha Characters.'; // Licence format is incorrect
-    //             return false;
-    //         }
-    //     }
-    // }
+    if(isset($_POST["submit"])){
+        
+        // SQL statement to insert into People Table
+        $sql = "INSERT INTO 
+                incident (Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID)
+                VALUES ('".$_POST["vehicle"]."',
+                        '".$_POST["suspect"]."',
+                        '".$_POST["date"]."',
+                        '".$_POST["statement"]."',
+                        '".$_POST["offense"]."')";
+        if($pdo->query($sql)){
+            unset($pdo);
+            header("location: ../views/incidents.php");
+            exit;
+        }
+    }
     
 ?>
     <div class="container">
@@ -74,11 +33,11 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" name="date" required="required" class="form-control" value="<?php echo $dateVal ?>">
+                    <input type="date" name="date" required="required" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Statement</label>
-                    <input type="text" name="statement" required="required" class="form-control" value="<?php echo $statementVal ?>">
+                    <input type="text" name="statement" required="required" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Vehicle</label><a class="ml-1 badge badge-success" href="../new/vehicle.php">Add New Vehicle</a>
