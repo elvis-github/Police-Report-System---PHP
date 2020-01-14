@@ -9,7 +9,7 @@
     require_once '../connection/connection.php';
     $vehicle = $person = $date = $statement = $offense = '';
     $editStatus = false;
-    
+
     if(isset($_GET['edit'])){
         $editStatus = true;
         echo '<h1>Hi There</h1>';
@@ -25,11 +25,10 @@
             $statement = $row->Incident_Report;
             $offense = $row->Offence_ID;
         } 
-        
+        unset($_GET['edit']);
     }
 
-    if(isset($_POST["submit"])){
-        
+    if(isset($_POST["submit"]) && !isset($_GET['edit'])){
         // SQL statement to insert into People Table
         $sql = "INSERT INTO 
                 incident (Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID)
@@ -40,7 +39,8 @@
                         '".$_POST["offense"]."')";
         if($pdo->query($sql)){
             unset($pdo);
-            header("location: ../views/incidents.php");
+            // header("location: ../views/incidents.php");
+            echo '<h1>Executed</h1>';
             exit;
         }
     }
@@ -103,7 +103,13 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                    <?php
+                    if(!$editStatus){
+                        echo '<input type="submit" class="btn btn-primary" name="submit" value="Submit">';
+                    } else {
+                        echo '<input type="submit" class="btn btn-success" name="submit" value="Update">';
+                    }
+                    ?>
                     <a class="btn btn-link" href="../views/main.php">Cancel</a>
                 </div>
             </form>
