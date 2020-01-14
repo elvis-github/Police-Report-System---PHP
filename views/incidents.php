@@ -7,14 +7,16 @@
     }
 
     require_once '../connection/connection.php';
-    $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect, offence.Offence_description AS Report
+    $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect, offence.Offence_description AS Report, fines.Fine_Amount AS Fine
                         FROM incident 
                         JOIN vehicle
                         ON incident.Vehicle_ID = vehicle.Vehicle_ID
                         JOIN people 
                         ON incident.People_ID = people.People_ID
                         JOIN offence
-                        ON incident.Offence_ID = offence.Offence_ID'
+                        ON incident.Offence_ID = offence.Offence_ID
+                        LEFT JOIN fines
+                        ON incident.Incident_ID = fines.Incident_ID'
                         );
 
 ?>
@@ -30,6 +32,7 @@
                         <th>Date</th>
                         <th>Report</th>
                         <th>Offence</th>
+                        <th>Fines</th>
                     </tr>
                 </thead>
                 <?php
@@ -41,6 +44,7 @@
                          '<td>'. $row->Incident_Date . '</td>' . 
                          '<td>'. $row->Incident_Report . '</td>' .
                          '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>' .
+                         '<td>'. $row->Fine . '</td>' .
                          '</tr>';
                     }
                     unset($stmt);
