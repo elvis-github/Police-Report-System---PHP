@@ -10,7 +10,8 @@
 
     if(!empty($_SESSION['message'])){
         $message = $_SESSION['message'];
-        echo '<h2 id="message" class="text-center mt-2">' . $message . '</h2>';
+        echo '<h2 id="message" class="text-center text-success mt-2">' . $message . '</h2>';
+        unset($_SESSION['message']);
     }
 ?>
 
@@ -50,5 +51,5 @@
 ?>
 
 <script>
-    $("#message").fadeOut("slow");
+    $("#message").delay(2000).fadeOut(3000);
 </script>
