@@ -7,10 +7,12 @@
     }
 
     require_once '../connection/connection.php';
+    var_dump($pdo);
     $nameVal = $confirmPassword = $confirmPasswordErr = $newPassword = $newPasswordErr = '';
 
     if(isset($_POST["submit"])){
         $nameVal = $_POST["username"];
+        (isset($_POST["admin"]) ? $admin = 1 : $admin = 0);
         // Validate new password
         if(empty(trim($_POST["newPassword"]))){
             $newPasswordErr = "Please enter the new password.";     
@@ -32,28 +34,30 @@
         // Check input errors before updating the database
         if(empty($newPasswordErr) && empty($confirmPasswordErr)){
             echo '<h1>No Errors</h1>';
-            // // Prepare an update statement
-            // $sql = "UPDATE officers SET password = :password WHERE officer_id = :id";
-            
-            // if($stmt = $pdo->prepare($sql)){
-            //     // Bind variables to the prepared statement as parameters
-            //     $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
-            //     $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
-                
-            //     // Set parameters
-            //     $param_password = $newPassword;
-            //     $param_id = $_SESSION["id"];
-                
-            //     // Attempt to execute the prepared statement
-            //     if($stmt->execute()){
-            //         // Password updated successfully. Destroy the session, and redirect to login page
-            //         session_destroy();
-            //         header("location: ../index.php");
-            //         exit();
-            //     } else{
-            //         echo "Oops! Something went wrong. Please try again later.";
-            //     }
-            // }
+            // Prepare an insert statement
+            $sql = "INSERT INTO
+                    officers(username, password, is_admin)
+                    VALUES(?, ?, ?)";
+            var_dump($sql);
+            var_dump($pdo);
+            if($stmt = $pdo->prepare($sql)){
+                echo '<h1>Entered prepare</h1>';
+                // Bind variables to the prepared statement as parameters
+                $stmt->bindParam(1, $nameVal);
+                $stmt->bindParam(2, $newPassword);
+                $stmt->bindParam(3, $admin);
+                                           
+                // Attempt to execute the prepared statement
+                if($stmt->execute()){
+                    // Account added successfully. Redirect to login page
+                    header("location: ../views/main.php");
+                    exit();
+                } else{
+                    echo "<h1>Oops! Something went wrong. Please try again later.</h1>";
+                }
+            } else {
+                echo "<h1>Oops! Something went wrong preparing. Please try again later.</h1>";
+            }
         
         // Close statement
         unset($stmt);
@@ -80,7 +84,7 @@
                     <span class="d-block text-danger"><?php echo $confirmPasswordErr; ?></span>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="admin" class="form-control" value="true">
+                    <input type="checkbox" class="form-check-input" name="admin" class="form-control" value="1">
                     <label class="form-check-label">Admin Status</label>
                 </div>
                 <div class="form-group mt-2">
