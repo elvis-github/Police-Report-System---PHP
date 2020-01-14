@@ -28,7 +28,7 @@
         unset($_GET['edit']);
     }
 
-    if(isset($_POST["submit"]) && !isset($_GET['edit'])){
+    if(isset($_POST["submit"])){
         // SQL statement to insert into People Table
         $sql = "INSERT INTO 
                 incident (Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID)
@@ -39,8 +39,7 @@
                         '".$_POST["offense"]."')";
         if($pdo->query($sql)){
             unset($pdo);
-            // header("location: ../views/incidents.php");
-            echo '<h1>Executed</h1>';
+            header("location: ../views/incidents.php");
             exit;
         }
     }
