@@ -7,55 +7,59 @@
     }
 
     require_once '../connection/connection.php';
-    $nameVal = $confirmPasswordErr = $newPasswordVal = $newPasswordErr = '';
+    $nameVal = $confirmPassword = $confirmPasswordErr = $newPassword = $newPasswordErr = '';
 
-    // if(isset($_POST["submit"])){
-    //     $nameVal = $_POST["name"];
-    //     $addrVal = $_POST["address"];
-    //     $licenceVal = $_POST["licence"];
+    if(isset($_POST["submit"])){
+        $nameVal = $_POST["username"];
+        // Validate new password
+        if(empty(trim($_POST["newPassword"]))){
+            $newPasswordErr = "Please enter the new password.";     
+        } elseif(strlen(trim($_POST["newPassword"])) < 6){
+            $newPasswordErr = "Password must have atleast 6 characters.";
+        } else{
+            $newPassword = trim($_POST["newPassword"]);
+        }
 
-    //     // Check if officer has added a full name
-    //     if(!preg_match("/^[a-zA-z]*[ ][a-zA-z]+$/", $_POST["name"])){
-    //         $nameErr = "Please enter a full name";
-    //     }
-
-    //     // Check if address is correct format       
-    //     if(!preg_match("/^[0-9]*[ ]{1}[a-zA-Z]*[ ]{1}[a-zA-z]*[,]{1}[ ]{1}[a-zA-Z]*$/", $_POST["address"])){
-    //         $addrErr = "Incorrect address format. Please match the following format: StreetNumber StreetAdress, CityName. Example: 6774 Wandering Way, Norcross";
-    //     }
-
-    //     //Check if licence is correct format
-    //     $_POST["licence"] = strtoupper($_POST["licence"]);
-    //     if(verifyLicence($_POST["licence"])){
-    //         echo 'Verified Licence';
-
-    //         // SQL statement to insert into People Table
-    //         $sql = "INSERT INTO people (People_name, People_address, People_licence)
-    //         VALUES ('".$_POST["name"]."','".$_POST["address"]."','".$_POST["licence"]."')";
-    //         if($pdo->query($sql)){
-    //             unset($pdo);
-    //             header("location: ../views/people.php");
-    //             exit;
-    //         } 
-    //     }
-    // }
-
-    // function verifyLicence($str){
-    //     if(strlen($str) != 16){
-    //         $GLOBALS['licenceErr'] = 'Licence length is incorrect. Must be 16 Characters in Length!'; // Length is incorrect
-    //         return false;
-    //     } else {
-    //         $startIndex = strpos($_POST["name"], ' ') + 1;
-    //         $endIndex = strlen($_POST["name"]);
-    //         $substrEndIndex = $endIndex - $startIndex;
-    //         if(substr($str, 0, $substrEndIndex) != strtoupper(substr($_POST["name"], $startIndex))){
-    //             $GLOBALS['licenceErr'] = 'Licence format is incorrect. Must be last name followed by alphanumeric characters for a total length of 16'; // Licence format is incorrect'
-    //         } else {
-    //             return true;
-    //         }
-    //     }
-    // }
-    
+        // Validate confirm password
+        if(empty(trim($_POST["confirmPassword"]))){
+            $confirmPasswordErr = "Please confirm the password.";
+        } else{
+            $confirmPassword = trim($_POST["confirmPassword"]);
+            if(empty($newPasswordErr) && ($newPassword != $confirmPassword)){
+                $confirmPasswordErr = "Password did not match.";
+            }
+        }
+        // Check input errors before updating the database
+        if(empty($newPasswordErr) && empty($confirmPasswordErr)){
+            echo '<h1>No Errors</h1>';
+            // // Prepare an update statement
+            // $sql = "UPDATE officers SET password = :password WHERE officer_id = :id";
+            
+            // if($stmt = $pdo->prepare($sql)){
+            //     // Bind variables to the prepared statement as parameters
+            //     $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
+            //     $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
+                
+            //     // Set parameters
+            //     $param_password = $newPassword;
+            //     $param_id = $_SESSION["id"];
+                
+            //     // Attempt to execute the prepared statement
+            //     if($stmt->execute()){
+            //         // Password updated successfully. Destroy the session, and redirect to login page
+            //         session_destroy();
+            //         header("location: ../index.php");
+            //         exit();
+            //     } else{
+            //         echo "Oops! Something went wrong. Please try again later.";
+            //     }
+            // }
+        
+        // Close statement
+        unset($stmt);
+    }
+    unset($pdo);
+}
 ?>
     <div class="container">
         <div class="mt-3">
@@ -67,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <label>New Password</label>
-                    <input type="password" name="newPassword" class="form-control" value="<?php echo $newPasswordVal; ?>">
+                    <input type="password" name="newPassword" class="form-control" value="<?php echo $newPassword; ?>">
                     <span class="d-block text-danger"><?php echo $newPasswordErr; ?></span>
                 </div>
                 <div class="form-group">
