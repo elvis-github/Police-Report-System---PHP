@@ -7,17 +7,26 @@
     }
 
     require_once '../connection/connection.php';
-    
-    // if(isset($_POST["submit"])){
-    //     // SQL statement to insert into People Table
-    //     $sql = "INSERT INTO people (People_name, People_address, People_licence)
-    //     VALUES ('".$_POST["name"]."','".$_POST["address"]."','".$_POST["licence"]."')";
-    //     if($pdo->query($sql)){
-    //         unset($pdo);
-    //         header("location: ../views/people.php");
-    //         exit;
-    //     }
-    // }  
+    $amountErr = $pointsErr = '';
+    if(isset($_POST["submit"])){
+        if($_POST["amount"] <= 0){
+            $amountErr = "Please enter an amount greater than 0";
+        }
+        if($_POST["points"] <= 0){
+            $pointsErr = "Please enter an amount greater than 0";
+        }
+        if(empty($amountErr) && empty($pointsErr)){
+        // SQL statement to insert into Fine Table
+            $sql = "INSERT INTO fines (Fine_Amount, Fine_Points, Incident_ID)
+            VALUES ('".$_POST["amount"]."','".$_POST["points"]."','".$_POST["incident"]."')";
+            if($pdo->query($sql)){
+                unset($pdo);
+                $_SESSION['message'] = 'Fine Successfully Added!';
+                header("location: ../views/main.php");
+                exit;
+            }
+        }
+    }  
 ?>
     <div class="container">
         <div class="mt-3">
@@ -26,10 +35,12 @@
                 <div class="form-group">
                     <label>Fine Amount</label>
                     <input type="text" name="amount" required class="form-control">
+                    <span class="d-block text-danger"><?php echo $amountErr; ?></span>
                 </div>
                 <div class="form-group">
                     <label>Fine Points</label>
                     <input type="text" name="points" required class="form-control">
+                    <span class="d-block text-danger"><?php echo $pointsErr; ?></span>
                 </div>
                 <div class="form-group">
                     <label>Incident</label><a class="ml-1 badge badge-success" href="../new/incident.php">Add New Incident</a>
