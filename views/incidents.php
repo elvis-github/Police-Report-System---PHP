@@ -16,7 +16,8 @@
                         JOIN offence
                         ON incident.Offence_ID = offence.Offence_ID
                         LEFT JOIN fines
-                        ON incident.Incident_ID = fines.Incident_ID'
+                        ON incident.Incident_ID = fines.Incident_ID
+                        GROUP BY incident.Incident_Date DESC'
                         );
 
 ?>
@@ -32,7 +33,7 @@
                         <th>Date</th>
                         <th>Report</th>
                         <th>Offence</th>
-                        <th>Fines</th>
+                        <th>Fine</th>
                     </tr>
                 </thead>
                 <?php
