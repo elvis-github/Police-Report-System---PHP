@@ -12,13 +12,11 @@
 
     if(isset($_GET['edit'])){
         $editStatus = true;
-        echo '<h1>Hi There</h1>';
         $id = $_GET['edit'];
         
         $stmt = $pdo->query("SELECT * FROM incident WHERE Incident_ID=$id");
         if($stmt->rowCount() == 1){
             $row = $stmt->fetch();
-            print_r($row);
             $vehicle = $row->Vehicle_ID;
             $person = $row->People_ID;
             $date = $row->Incident_Date;
@@ -106,7 +104,7 @@
                     if(!$editStatus){
                         echo '<input type="submit" class="btn btn-primary" name="submit" value="Submit">';
                     } else {
-                        echo '<input type="submit" class="btn btn-success" name="submit" value="Update">';
+                        echo '<input type="submit" class="btn btn-success" name="update" value="Update">';
                     }
                     ?>
                     <a class="btn btn-link" href="../views/main.php">Cancel</a>
