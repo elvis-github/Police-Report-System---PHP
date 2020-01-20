@@ -7,10 +7,26 @@
     }
 
     require_once '../connection/connection.php';
-    $statementVal = $dateVal = '';
+    $id = $vehicle = $person = $date = $statement = $offense = '';
+    $editStatus = false;
+
+    if(isset($_GET['edit'])){
+        $editStatus = true;
+        $id = $_GET['edit'];
+        
+        $stmt = $pdo->query("SELECT * FROM incident WHERE Incident_ID=$id");
+        if($stmt->rowCount() == 1){
+            $row = $stmt->fetch();
+            $vehicle = $row->Vehicle_ID;
+            $person = $row->People_ID;
+            $date = $row->Incident_Date;
+            $statement = $row->Incident_Report;
+            $offense = $row->Offence_ID;
+        } 
+        unset($_GET['edit']);
+    }
 
     if(isset($_POST["submit"])){
-        
         // SQL statement to insert into People Table
         $sql = "INSERT INTO 
                 incident (Vehicle_ID, People_ID, Incident_Date, Incident_Report, Offence_ID)
@@ -25,19 +41,49 @@
             exit;
         }
     }
+
+    if(isset($_POST["update"])){
+        $sql = "UPDATE incident 
+                SET Vehicle_ID = :vehicle,
+                    People_ID = :person,
+                    Incident_Date = :date,
+                    Incident_Report = :statement,
+                    Offence_ID = :offense
+                WHERE Incident_ID = :incident";
+        
+        if($stmt = $pdo->prepare($sql)){
+            $stmt->bindParam(":vehicle", $_POST['vehicle'], PDO::PARAM_INT);
+            $stmt->bindParam(":person", $_POST['suspect'], PDO::PARAM_INT);
+            $stmt->bindParam(":date", $_POST['date'], PDO::PARAM_STR);
+            $stmt->bindParam(":statement", $_POST['statement'], PDO::PARAM_STR);
+            $stmt->bindParam(":offense", $_POST['offense'], PDO::PARAM_INT);
+            $stmt->bindParam(":incident", $_POST['id'], PDO::PARAM_INT);
+
+            if($stmt->execute()){
+                header("location: ../views/incidents.php");
+                exit();
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+    }
     
 ?>
     <div class="container">
         <div class="mt-3">
-            <h1>Add New Incident</h1>
+            <?php 
+                ($editStatus ? $h1Msg = 'Edit Incident' : $h1Msg = 'Add New Incident');
+                echo '<h1>'.$h1Msg.'</h1>';
+            ?>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
+                <input type="hidden" name="id" value="<?php echo $id ?>">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" name="date" required="required" class="form-control">
+                    <input type="date" name="date" required="required" class="form-control" value="<?php echo $date ?>">
                 </div>
                 <div class="form-group">
                     <label>Statement</label>
-                    <input type="text" name="statement" required="required" class="form-control">
+                    <input type="text" name="statement" required="required" class="form-control" value="<?php echo $statement ?>">
                 </div>
                 <div class="form-group">
                     <label>Vehicle</label><a class="ml-1 badge badge-success" href="../new/vehicle.php">Add New Vehicle</a>
@@ -47,7 +93,11 @@
                             $stmt = $pdo->query("SELECT Vehicle_ID, Vehicle_type, Vehicle_licence
                                                 FROM vehicle");
                             while($row = $stmt->fetch()){
-                                echo '<option value="' . $row->Vehicle_ID.'">' . $row->Vehicle_type . ' (' . $row->Vehicle_licence . ')</option>';
+                                echo '<option value="' . $row->Vehicle_ID.'"';
+                                if($editStatus && $vehicle == $row->Vehicle_ID){
+                                    echo ' selected ';
+                                }
+                                echo '>' . $row->Vehicle_type . ' (' . $row->Vehicle_licence . ')</option>';
                             }
                         ?>   
                     </select>
@@ -60,7 +110,11 @@
                             $stmt = $pdo->query("SELECT People_ID, People_name, People_licence
                                                 FROM people");
                             while($row = $stmt->fetch()){
-                                echo '<option value="' . $row->People_ID.'">' . $row->People_name . ' (' . $row->People_licence . ')</option>';
+                                echo '<option value="' . $row->People_ID.'"';
+                                if($editStatus && $person == $row->People_ID){
+                                    echo ' selected ';
+                                }
+                                echo '>' . $row->People_name . ' (' . $row->People_licence . ')</option>';
                             }
                         ?>   
                     </select>
@@ -73,7 +127,11 @@
                             $stmt = $pdo->query("SELECT Offence_ID, Offence_description
                                                 FROM offence");
                             while($row = $stmt->fetch()){
-                                echo '<option value="' . $row->Offence_ID.'">' . $row->Offence_ID . '. ' . $row->Offence_description . '</option>';
+                                echo '<option value="' . $row->Offence_ID.'"';
+                                if($editStatus && $offense == $row->Offence_ID){
+                                    echo ' selected ';
+                                }
+                                echo '>' . $row->Offence_ID . '. ' . $row->Offence_description . '</option>';
                             }
                             unset($stmt);
                             unset($pdo);
@@ -81,7 +139,13 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                    <?php
+                    if(!$editStatus){
+                        echo '<input type="submit" class="btn btn-primary" name="submit" value="Submit">';
+                    } else {
+                        echo '<input type="submit" class="btn btn-success" name="update" value="Update">';
+                    }
+                    ?>
                     <a class="btn btn-link" href="../views/main.php">Cancel</a>
                 </div>
             </form>
