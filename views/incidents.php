@@ -7,18 +7,20 @@
     }
 
     require_once '../connection/connection.php';
-    $stmt = $pdo->query('SELECT incident.*, vehicle.Vehicle_type AS Vehicle, people.People_name AS Suspect, offence.Offence_description AS Report, fines.Fine_Amount AS Fine
-                        FROM incident 
-                        JOIN vehicle
-                        ON incident.Vehicle_ID = vehicle.Vehicle_ID
-                        JOIN people 
-                        ON incident.People_ID = people.People_ID
-                        JOIN offence
-                        ON incident.Offence_ID = offence.Offence_ID
-                        LEFT JOIN fines
-                        ON incident.Incident_ID = fines.Incident_ID
-                        GROUP BY incident.Incident_Date DESC'
-                        );
+    $sql = 'SELECT i.*, v.Vehicle_type, p.People_Name, o.Offence_description, f.Fine_Amount
+    FROM incident AS i
+    JOIN vehicle AS v
+    ON i.Vehicle_ID = v.Vehicle_ID
+    JOIN people AS p 
+    ON i.People_ID = p.People_ID
+    JOIN offence AS o 
+    ON i.Offence_ID = o.Offence_ID
+    LEFT JOIN fines AS f
+    ON i.Incident_ID = f.Incident_ID
+    GROUP BY i.Incident_ID DESC';
+    
+    
+    $stmt = $pdo->query($sql);
 
 ?>
     <div class="container">
@@ -41,11 +43,11 @@
                     while($row = $stmt->fetch()){
                         echo '<tr>' . 
                          '<td>'. $row->Incident_Date . '</td>' .
-                         '<td>'. $row->Vehicle . '</td>' .
-                         '<td>'. $row->Suspect . '</td>' . 
+                         '<td>'. $row->Vehicle_type . '</td>' .
+                         '<td>'. $row->People_Name . '</td>' . 
                          '<td>'. $row->Incident_Report . '</td>' .
-                         '<td>#'. $row->Offence_ID . '. ' . $row->Report . '</td>' .
-                         '<td>'. ($row->Fine ? $row->Fine : '---') . '</td>' .
+                         '<td>#'. $row->Offence_ID . '. ' . $row->Offence_description . '</td>' .
+                         '<td>'. ($row->Fine_Amount ? $row->Fine_Amount : '---') . '</td>' .
                          '<td><a href="../new/incident.php?edit='. $row->Incident_ID .'" class="text-success">Edit</a></td>' . 
                          '</tr>';
                     }
