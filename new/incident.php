@@ -7,7 +7,7 @@
     }
 
     require_once '../connection/connection.php';
-    $vehicle = $person = $date = $statement = $offense = '';
+    $id = $vehicle = $person = $date = $statement = $offense = '';
     $editStatus = false;
 
     if(isset($_GET['edit'])){
@@ -41,6 +41,32 @@
             exit;
         }
     }
+
+    if(isset($_POST["update"])){
+        $sql = "UPDATE incident 
+                SET Vehicle_ID = :vehicle,
+                    People_ID = :person,
+                    Incident_Date = :date,
+                    Incident_Report = :statement,
+                    Offence_ID = :offense
+                WHERE Incident_ID = :incident";
+        
+        if($stmt = $pdo->prepare($sql)){
+            $stmt->bindParam(":vehicle", $_POST['vehicle'], PDO::PARAM_INT);
+            $stmt->bindParam(":person", $_POST['suspect'], PDO::PARAM_INT);
+            $stmt->bindParam(":date", $_POST['date'], PDO::PARAM_STR);
+            $stmt->bindParam(":statement", $_POST['statement'], PDO::PARAM_STR);
+            $stmt->bindParam(":offense", $_POST['offense'], PDO::PARAM_INT);
+            $stmt->bindParam(":incident", $_POST['id'], PDO::PARAM_INT);
+
+            if($stmt->execute()){
+                header("location: ../views/incidents.php");
+                exit();
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+    }
     
 ?>
     <div class="container">
@@ -50,6 +76,7 @@
                 echo '<h1>'.$h1Msg.'</h1>';
             ?>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"> 
+                <input type="hidden" name="id" value="<?php echo $id ?>">
                 <div class="form-group">
                     <label>Date</label>
                     <input type="date" name="date" required="required" class="form-control" value="<?php echo $date ?>">
