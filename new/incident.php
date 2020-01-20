@@ -66,7 +66,11 @@
                             $stmt = $pdo->query("SELECT Vehicle_ID, Vehicle_type, Vehicle_licence
                                                 FROM vehicle");
                             while($row = $stmt->fetch()){
-                                echo '<option value="' . $row->Vehicle_ID.'">' . $row->Vehicle_type . ' (' . $row->Vehicle_licence . ')</option>';
+                                echo '<option value="' . $row->Vehicle_ID.'"';
+                                if($editStatus && $vehicle == $row->Vehicle_ID){
+                                    echo ' selected ';
+                                }
+                                echo '>' . $row->Vehicle_type . ' (' . $row->Vehicle_licence . ')</option>';
                             }
                         ?>   
                     </select>
@@ -79,7 +83,11 @@
                             $stmt = $pdo->query("SELECT People_ID, People_name, People_licence
                                                 FROM people");
                             while($row = $stmt->fetch()){
-                                echo '<option value="' . $row->People_ID.'">' . $row->People_name . ' (' . $row->People_licence . ')</option>';
+                                echo '<option value="' . $row->People_ID.'"';
+                                if($editStatus && $person == $row->People_ID){
+                                    echo ' selected ';
+                                }
+                                echo '>' . $row->People_name . ' (' . $row->People_licence . ')</option>';
                             }
                         ?>   
                     </select>
@@ -92,7 +100,11 @@
                             $stmt = $pdo->query("SELECT Offence_ID, Offence_description
                                                 FROM offence");
                             while($row = $stmt->fetch()){
-                                echo '<option value="' . $row->Offence_ID.'">' . $row->Offence_ID . '. ' . $row->Offence_description . '</option>';
+                                echo '<option value="' . $row->Offence_ID.'"';
+                                if($editStatus && $offense == $row->Offence_ID){
+                                    echo ' selected ';
+                                }
+                                echo '>' . $row->Offence_ID . '. ' . $row->Offence_description . '</option>';
                             }
                             unset($stmt);
                             unset($pdo);
